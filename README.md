@@ -11,6 +11,9 @@ googlechart.component.ts is the parent class
 barchart.component.ts and timelinechart.component.ts extend googlechart.component.ts
 
 app.component.html includes barchart and timelinechart
+
+timelinechart.component.ts has code to show "select" event handling and chart refresh.
+
 ```
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
