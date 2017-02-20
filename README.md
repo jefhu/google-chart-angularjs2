@@ -1,4 +1,4 @@
-# Google Chart Integrated In AngularJS2 project
+# Google Chart Integrated In AngularJS2 Project
 
 Credit to http://stackoverflow.com/questions/37542408/angular2-google-charts-how-to-integrate-google-charts-in-angular2
 
@@ -6,11 +6,12 @@ Key points:
 ```
 index.html has
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-googlechart.component.ts is the parent class
+
+googlechart.component.ts is the parent component class.
 
 barchart.component.ts and timelinechart.component.ts extend googlechart.component.ts
 
-app.component.html includes barchart and timelinechart
+app.component.html includes barchart and timelinechart selectors.
 
 timelinechart.component.ts has code to show "select" event handling and chart refresh.
 
