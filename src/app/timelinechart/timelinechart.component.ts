@@ -25,7 +25,7 @@ export class TimelinechartComponent  extends GoogleChartComponent {
                 {type: 'date', id: 'start_date'},
                 {type: 'date', id: 'finish_date'},
                 ],
-                rows: [       
+               /* rows: [       
                 {c:[{v: 'A'}, {v: 'John'}, {v: 'John Doe'}, {v: new Date(2016, 7, 31)}, {v: new Date(2016, 8, 1)}]},
                 {c:[{v: 'A'}, {v: 'Jane'}, {v: 'Jane Doe'}, {v: new Date(2016, 7, 27)}, {v: new Date(2016, 7, 31)}]},
                 {c:[{v: 'B'}, {v: 'John'}, {v: 'John Doe'}, {v: new Date(2016, 7, 30)}, {v: new Date(2016, 8, 1)}]},
@@ -33,7 +33,13 @@ export class TimelinechartComponent  extends GoogleChartComponent {
                 {c:[{v: 'C'}, {v: 'John'}, {v: 'John Doe'}, {v: new Date(2016, 7, 25)}, {v: new Date(2016, 7, 29)}]},
                 {c:[{v: 'C'}, {v: 'Jane'}, {v: 'Jane Doe'}, {v: new Date(2016, 7, 27)}, {v: new Date(2016, 8, 1)}]},
                 {c:[{v: 'C'}, {v: 'Fred'}, {v: 'Fred Doe'}, {v: new Date(2016, 7, 21)}, {v: new Date(2016, 7, 26)}]}
-                ]
+                ]*/
+                 rows: [       
+                    {c:[{v: 'Drug-A'}, {v: ''}, {v: 'John Doe'}, {v: new Date(2016, 7, 31)}, {v: new Date(2016, 8, 1)}]},
+                   
+                    {c:[{v: 'Drug-B'}, {v: ''}, {v: 'John Doe'}, {v: new Date(2016, 7, 30)}, {v: new Date(2016, 8, 1)}]},
+                    {c:[{v: 'Drug-C'}, {v: ''}, {v: 'John Doe'}, {v: new Date(2016, 7, 25)}, {v: new Date(2016, 7, 29)}]}
+                  ]
      };
 
     public timeline_ChartOption={
@@ -111,6 +117,82 @@ export class TimelinechartComponent  extends GoogleChartComponent {
         return dataTable;
   }
 
+ 
+  getRandomInt(min:number, max:number) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+   }
+
+   getPastDate(minuusDay):Date{
+     let d = new Date();
+     d.setDate(d.getDate() - minuusDay);
+     d.setHours(0);
+     d.setMinutes(0);
+     d.setSeconds(0);
+     return d;
+   }
+  getRandomString():string{
+   return  Math.random().toString(36).slice(2);
+  }
+  
+
+  buildRowData():any[]{
+    var types=[
+          "Office Visit", "Communication", "Prescription", "Label Result", "Medical Notes"
+    ];
+
+    var eventContent ={
+      "Office Visit":['Visit Sunnyvale Office', 'Visit New York Office', 'Mayo Clinics', 'Emergency Room', 'Walk In Medical Office'],
+      "Communication":['Call registered nurse', 'Call pharmary', 'Email Dr Smith'],
+      "Prescription":['Zolof', 'Doxycycline', 'Pain Killer', 'Citalopram', 'Ativan' ,'Lyrica'],
+      "Label Result":['EKG','Blood Test', 'UltraSound'],
+      "Medical Notes":['Drink more water', 'Go execrises','Go to ER', 'Refer to specialist']
+    }
+
+    let durations =[15, 30, 60, 90, 120];
+
+    
+    var row = [];
+    let type = types[ this.getRandomInt(0, types.length-1)];
+    let enventList = eventContent[type];
+    let event = enventList[this.getRandomInt(0, enventList.length-1)];
+    let minusDays = this.getRandomInt(5, 365);
+    let startDate = this.getPastDate(minusDays);
+    let hour = this.getRandomInt(9, 17);
+    startDate.setHours(hour);
+    let addMinutes = durations[this.getRandomInt(0, durations.length-1)];
+    let endDate = new Date(startDate.getTime()+ addMinutes*60*1000);
+    row.push(type);
+    row.push(event);
+    row.push(startDate)
+    row.push(endDate);
+    return row;
+  }
+
+  clickHandler2(event){
+    var g = this.getGoogle();
+    var dataTable = new g.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'Type' });
+        dataTable.addColumn({ type: 'string', id: 'Event' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+
+        let len = this.getRandomInt(10, 30);
+        for (var i=0; i<10; i++){
+          let row = this.buildRowData();
+          dataTable.addRow(row);
+        }
+
+        console.log(dataTable.toJSON());
+       
+       
+
+        this.chart.setDataTable(dataTable );
+    
+        this.chart.draw();    
+        
+  }
+
   clickHandler(event){
     
     let odd  =this.num ;
@@ -118,7 +200,26 @@ export class TimelinechartComponent  extends GoogleChartComponent {
     let newData = (odd)? this.timeline_ChartData: this.buildNewDataTable();
     this.chart.setDataTable(newData );
     
-    this.chart.draw();    
+    this.chart.draw();   
+    /*
+      // this is just for debugging only
+      let timeLinechart = this.chart;
+      var dataString = timeLinechart.getDataTable().toJSON();
+      var dataObj= JSON.parse(dataString);
+      var rows = dataObj["rows"];
+      var cols = dataObj['cols'];
+      var events =[];
+      for (var i=0; i<rows.length;i++){
+        var row = rows[i];
+        var event ={};
+        var list = row["c"];
+        for (var j=0; j<list.length;j++){
+            event[cols[j]['id']]= list[j]['v'];
+        }
+        events.push(event);
+      }
+      console.log(JSON.stringify(events));
+      //*/ 
   }
 
 }

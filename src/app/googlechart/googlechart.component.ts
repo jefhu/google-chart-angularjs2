@@ -4,7 +4,7 @@ import { Component, OnInit} from '@angular/core';
 declare var google:any;
 @Component({
   selector: 'chart',
-  templateUrl: './googlechart.component.html',
+  templateUrl: './googlechart.component.html', 
   styleUrls: ['./googlechart.component.css']
 })
 export class GoogleChartComponent implements OnInit {

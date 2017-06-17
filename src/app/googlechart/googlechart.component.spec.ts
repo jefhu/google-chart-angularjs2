@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { GooglechartComponent } from './googlechart.component';
+import { GoogleChartComponent } from './googlechart.component';
 
-describe('GooglechartComponent', () => {
-  let component: GooglechartComponent;
-  let fixture: ComponentFixture<GooglechartComponent>;
+describe('GoogleChartComponent', () => {
+  let component: GoogleChartComponent;
+  let fixture: ComponentFixture<GoogleChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GooglechartComponent ]
+      declarations: [ GoogleChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GooglechartComponent);
+    fixture = TestBed.createComponent(GoogleChartComponent); 
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
